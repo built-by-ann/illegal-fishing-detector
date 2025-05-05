@@ -1,12 +1,20 @@
-# train_model.py
+print("🔥🔥🔥 IF YOU SEE THIS, THE FILE IS RUNNING 🔥🔥🔥")
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Force CPU to avoid GPU hangs on some systems
+
+# ✅ Safe settings for Apple Silicon
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Force CPU
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "false"
+os.environ["TF_DEVICE_MINIMUM_TPU_CORE_COUNT"] = "8"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "0"
+
+import logging
+logging.getLogger("tensorflow").setLevel(logging.DEBUG)
 
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report, confusion_matrix
 import tensorflow as tf
 from tensorflow.keras import layers, models
 
@@ -21,10 +29,10 @@ print(f"✅ Loaded {X.shape[0]} samples. Shape: {X.shape}, Labels: {np.unique(y)
 # Add channel dimension for CNN
 X = X[..., np.newaxis]  # shape: (samples, 224, 224, 1)
 
-# Train/test split
-print("🔀 Splitting into train/test sets...")
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-print(f"✅ Train: {X_train.shape}, Test: {X_test.shape}")
+# Use all data for both train and test (since only 2 samples)
+X_train, y_train = X, y
+X_test, y_test = X, y
+print(f"🧮 Using {len(X_train)} total samples (no split)")
 
 # Build CNN model
 print("🛠️ Building model...")
@@ -53,9 +61,10 @@ model.summary()
 print("🚀 Starting training...")
 history = model.fit(
     X_train, y_train,
-    epochs=10,
-    batch_size=8,
-    validation_data=(X_test, y_test)
+    epochs=20,
+    batch_size=1,
+    validation_data=(X_test, y_test),
+    verbose=1
 )
 
 # Evaluate
@@ -70,6 +79,14 @@ print("\nClassification Report:")
 print(classification_report(y_test, preds))
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, preds))
+
+# Save predictions
+np.save("predictions.npy", preds)
+print("✅ Predictions saved to predictions.npy")
+
+# Save model
+model.save("trained_model.h5")
+print("✅ Model saved to trained_model.h5")
 
 # Plot accuracy and loss
 print("📈 Plotting training history...")
@@ -92,4 +109,5 @@ plt.ylabel('Loss')
 plt.legend()
 
 plt.tight_layout()
-plt.show()
+plt.savefig("training_history.png")
+print("✅ Saved training plot to training_history.png")
