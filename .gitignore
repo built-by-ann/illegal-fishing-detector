@@ -4,3 +4,4 @@ data/training/
 __pycache__/
 *.SAFE
 .DS_Store
+.env
