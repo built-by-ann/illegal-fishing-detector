@@ -1,5 +1,3 @@
-print("🔥🔥🔥 IF YOU SEE THIS, THE FILE IS RUNNING 🔥🔥🔥")
-
 import os
 
 # ✅ Safe settings for Apple Silicon
