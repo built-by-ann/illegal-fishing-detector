@@ -1,0 +1,3 @@
+sar_path,mmsi,vessel_name,timestamp,lat,lon,fishing
+data/preprocessed/sar/s1a-iw-grd-vh-20230629t115022-20230629t115051-049200-05ea93-002.npy,123456789,Fake Tuna One,2023-06-29 11:50:22,-0.745,-91.33,1
+data/preprocessed/sar/s1a-iw-grd-vv-20230629t115022-20230629t115051-049200-05ea93-001.npy,123456789,Fake Tuna One,2023-06-29 11:50:22,-0.745,-91.33,1

@@ -1,0 +1,3 @@
+timestamp,lat,lon,mmsi,vessel_name,fishing
+2023-06-29T11:50:22Z,-0.745,-91.33,123456789,Fake Tuna One,1
+2023-06-29T11:50:22Z,-0.721,-91.28,987654321,Fake Shrimp Two,0

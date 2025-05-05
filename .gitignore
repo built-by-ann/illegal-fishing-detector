@@ -1,0 +1,6 @@
+*.npy
+*.tiff
+data/training/
+__pycache__/
+*.SAFE
+.DS_Store
